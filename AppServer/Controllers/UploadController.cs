@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -11,7 +12,7 @@ namespace AppServer.Controllers
     {
         [System.Web.Http.AcceptVerbs("GET", "POST")]
 
-       // [AllowAnonymous]
+        // [AllowAnonymous]
 
         [Route("api/files/Upload")]
         [HttpPost]
@@ -30,17 +31,26 @@ namespace AppServer.Controllers
 
                         var fileName = postedFile.FileName.Split('\\').LastOrDefault().Split('/').LastOrDefault();
 
-                        var filePath = HttpContext.Current.Server.MapPath("~/Uploads/" + fileName);
+                        GlobalVars.strfilename = fileName.ToString();
+                    
+                      
+                         var filePath = HttpContext.Current.Server.MapPath("~/Uploads/" + fileName );
+                         postedFile.SaveAs(filePath);
 
-                        postedFile.SaveAs(filePath);
-
+                        TriggerProcs.CreateDirectory(fileName);
+                        TriggerProcs.Insert_Upload();
+                        TriggerProcs.MoveFile();
+                        //fdgdfg
                         return "/Uploads/" + fileName;
+                       
                     }
                 }
             }
             catch (Exception exception)
             {
+                
                 return exception.Message;
+               
             }
 
             return "no files";
