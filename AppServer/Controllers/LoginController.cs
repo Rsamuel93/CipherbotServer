@@ -31,31 +31,32 @@ namespace AppServer.Controllers
 
                 using (conn)
                 {
-                   
+
                     SqlCommand command = new SqlCommand(procedure, conn);
                     command.CommandType = CommandType.StoredProcedure;
-                     command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@username", username);
                     command.Parameters.AddWithValue("@password", password);
-    
-                    command.Parameters.Add("@ExpiryDate", SqlDbType.NVarChar,30).Direction = ParameterDirection.Output;
+
+                    command.Parameters.Add("@ExpiryDate", SqlDbType.NVarChar, 1000).Direction = ParameterDirection.Output;
                     conn.Open();
                     command.ExecuteNonQuery();
                     string ExpiryDate = (string)command.Parameters["@expirydate"].Value;
                     conn.Close();
-                  
+                   
+
 
                     return ExpiryDate;
                 }
-            
-              
-               
+
+
+
             }
             catch (Exception exception)
             {
                 return exception.Message;
             }
-           
-           
+
+
         }
     }
 }
