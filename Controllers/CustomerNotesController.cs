@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -21,12 +22,12 @@ namespace AppServer.Controllers
             {
                
                 string strnotesfilename = strguid + "_" + strfilename + "_" + millisecond ;
-                var txtFile = Path.Combine(GlobalVars.basePath , strnotesfilename, "Notes.txt");
+                string txtFile = Path.Combine(GlobalVars.basePath , strnotesfilename, "Notes.txt");
                 if (!File.Exists(txtFile))
                 {
-                    FileStream fs = File.Create(txtFile);
-                 
-                    
+                    //FileStream fs = File.Create(txtFile);
+
+                    Thread.Sleep(300);
                     try
                     {
                        
@@ -34,7 +35,7 @@ namespace AppServer.Controllers
                     }
                     finally
                     {
-                        fs.Dispose();
+                      //  fs.Dispose();
                     }
 
 
